@@ -52,7 +52,7 @@ outdir = "console_output/"
 # Does not include learning rate sweep: see MLP_training_lr
 saveSweep = True # save accuracy table in a csv
 Nruns = 1 # number of models to run with identical settings
-Nepochs = 20 # number of epochs per model
+Nepochs = 1 # number of epochs per model
 
 ### Which lookup table(s) to run
 device_type = "DWMTJ"
