@@ -627,14 +627,19 @@ def inference(ntest,dataset,paramsList,sizes,keras_model,layerParams,**kwargs):
             bp.indata = x_test
         bp.answers = y_test
 
-        # If first layer is convolution, transpose the dataset so channel comes first
-        if type(paramsList[0])==list:
-            if paramsList[0][0].convolution_parameters.is_conv_core:
-                bp.indata = np.transpose(bp.indata,(0,3,1,2))
+        # Detect if first layer is convolution or dense  # ← MODIFICACION PARA INFERENCIA
+        if type(paramsList[0]) == list:
+            first_is_conv = paramsList[0][0].convolution_parameters.is_conv_core
         else:
-            if paramsList[0].convolution_parameters.is_conv_core:
-                bp.indata = np.transpose(bp.indata,(0,3,1,2))
-        bp.ndata = (ntest_batch if not randomSampling else x_test.shape[0])
+            first_is_conv = paramsList[0].convolution_parameters.is_conv_core
+
+        if first_is_conv:
+            # CNN
+            bp.indata = np.transpose(bp.indata, (0,3,1,2))
+        else:
+            # MLP -> flatten inputs
+            bp.indata = bp.indata.reshape(bp.indata.shape[0], -1)
+            bp.ndata = (ntest_batch if not randomSampling else x_test.shape[0])
 
         # If the first layer is using GPU, send the inputs to the GPU
         if useGPU:

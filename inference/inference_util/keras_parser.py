@@ -54,10 +54,30 @@ def get_keras_metadata(model,debug_graph=False,task="imagenet"):
         # Input layer of network: specifies input dimensions of the first layer
         # Not always specified in a Keras CNN model; in that case use the dataset image size as a guess
         if class_name == 'InputLayer':
-            Nix0 = config_k['batch_input_shape'][1]
-            if len(config_k['batch_input_shape']) == 4: # 3D input
-                Niy0 = config_k['batch_input_shape'][2]
-                Nic0 = config_k['batch_input_shape'][3]
+
+            if 'batch_input_shape' in config_k:
+                input_shape = config_k['batch_input_shape']
+
+            elif 'batch_shape' in config_k:
+                input_shape = config_k['batch_shape']
+
+            elif 'build_input_shape' in config_k:
+                input_shape = config_k['build_input_shape']
+
+            elif 'input_shape' in config_k:
+                shp = config_k['input_shape']
+                input_shape = [None] + list(shp)
+
+            else:
+                # usar model.input_shape directamente
+                input_shape = model.input_shape
+
+            Nix0 = input_shape[1]
+    
+          #  if len(config_k['batch_input_shape']) == 4: # 3D input # ← MODIFICACION PARA INFERENCIA
+            if len(input_shape) == 4:  
+                Niy0 = input_shape[2]
+                Nic0 = input_shape[3]
                 if Nix0 is None or Niy0 is None:
                     print('Input dimensions not defined. Using '+task+' image size')
                     if task in ("cifar10","cifar100"):
@@ -122,12 +142,23 @@ def get_keras_metadata(model,debug_graph=False,task="imagenet"):
                 if not layerParams_k['depthwise']:
                     layerParams_k['Noc'] = config_k['filters']
 
-                # Input shape can be specified for the first conv layer, computed later for the other layers
-                if k == 0 and len(layerParams) == 0: # No InputLayer
-                    layerParams_k['Nix'] = config_k['batch_input_shape'][1]
-                    layerParams_k['Niy'] = config_k['batch_input_shape'][2]
-                    layerParams_k['Nic'] = config_k['batch_input_shape'][3]
-                elif len(layerParams) == 0: # Get dimensions from InputLayer
+                # Input shape can be specified for the first conv layer, computed later for the other layers  # ← MODIFICACION PARA INFERENCIA 
+                if k == 0 and len(layerParams) == 0:
+
+                    if 'batch_input_shape' in config_k:
+                        first_shape = config_k['batch_input_shape']
+                    elif 'build_input_shape' in config_k:
+                        first_shape = config_k['build_input_shape']
+                    elif 'input_shape' in config_k:
+                        first_shape = config_k['input_shape']
+                    else:
+                        raise ValueError("No input shape en primera Conv2D")
+
+                    layerParams_k['Nix'] = first_shape[1]
+                    layerParams_k['Niy'] = first_shape[2]
+                    layerParams_k['Nic'] = first_shape[3]
+
+                elif len(layerParams) == 0:
                     layerParams_k['Nix'] = Nix0
                     layerParams_k['Niy'] = Niy0
                     layerParams_k['Nic'] = Nic0
@@ -234,18 +265,30 @@ def get_keras_metadata(model,debug_graph=False,task="imagenet"):
                     layerParams_k['source'] = None # Dense layer is first layer
                 
                 # Check if activation is defined within the conv layer
-                if 'activation' in config_k and config_k['activation'] is not None and config_k['activation'] != "linear":
+                if 'activation' in config_k and config_k['activation'] is not None and config_k['activation'] != "linear":  # ← MODIFICACION PARA INFERENCIA 
                     activation = {}
-                    if config_k['activation'] == 'relu':
-                        activation['name'] = config_k['name']+'_relu'
+                    act = config_k['activation']
+
+                    if act == 'relu':
+                        activation['name'] = config_k['name'] + '_relu'
                         activation['type'] = "RECTLINEAR"
                         activation['bound'] = 1e20
-                    elif config_k['activation'] == 'softmax':
-                        activation['name'] = config_k['name']+'_softmax'
+
+                    elif act == 'softmax':
+                        activation['name'] = config_k['name'] + '_softmax'
                         activation['type'] = "SOFTMAX"
+
+                    elif act == 'sigmoid':
+                        activation['name'] = config_k['name'] + '_sigmoid'
+                        activation['type'] = "SIGMOID"
+
+                    elif act in ['tanh', 'swish', 'selu', 'gelu']:
+                        activation = None
+
                     else:
-                        raise ValueError("Unrecognized activation in dense layer")
-                    layerParams_k['activation'] = activation             
+                        activation = None
+
+                    layerParams_k['activation'] = activation           
 
             #########################
             ##  ADD & CONCATENATE  ##
@@ -487,7 +530,7 @@ def get_keras_metadata(model,debug_graph=False,task="imagenet"):
                     if (Niy % stride == 0):
                         py = max(MPy - stride, 0)
                     else:
-                        py = max(Ky - (Niy % stride), 0)
+                        py = max(MPy - (Niy % stride), 0)
                 else:
                     # Even size filter
                     px = (layerParams[j]['Nox'] - 1)*stride + MPx - Nix

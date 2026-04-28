@@ -157,7 +157,20 @@ def build_keras_model(model_name,show_model_summary=False):
 
     elif model_name == "cifar10_cnn_brelu":
         model_path = "../pretrained_models/cifar10/cifar10_cnn_brelu.h5"
-        keras_model = load_keras_model(model_path,custom_import=True)
+        keras_model = load_keras_model(model_path,custom_import=True) 
+        
+    elif model_name == "MLP_mnist_lookup_multi_run0": # ← MODIFICACION PARA INFERENCIA 
+        model_path = "../training/cross_sim_models/MLP_mnist_lookup_multi_run0.h5"
+        keras_model = load_keras_model(model_path)
+
+    elif model_name == "MLP_mnist_lookup_standard_run0":
+        model_path = "../training/cross_sim_models/MLP_mnist_lookup_standard_run0.h5"
+        keras_model = load_keras_model(model_path)
+
+    elif model_name == "MLP_mnist_numeric_run0":
+        model_path = "../training/cross_sim_models/MLP_mnist_numeric_run0.h5"
+        keras_model = load_keras_model(model_path)
+    
 
     ###### ALL OTHER UN-NAMED MODELS
     # Try to use model_name as path directly

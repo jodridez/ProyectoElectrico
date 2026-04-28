@@ -49,8 +49,9 @@ elif task == "cifar10":
     # model_name = "ResNet56"
 
 elif task == "mnist":
-    model_name = "CNN6"
+    # model_name = "CNN6"
     # model_name = "CNN6_v2"
+    model_name = "MLP_mnist_lookup_multi_run0" # ← MODIFICACION PARA QUE USE NUESTRO MODELO ENTRENADO EN LUGAR DEL QUE SE USA POR DEFECTO
 
 # Dataset truncation
 ntest = 1000 # number of images in inference simlation
