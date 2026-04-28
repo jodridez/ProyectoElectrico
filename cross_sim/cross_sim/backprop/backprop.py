@@ -18,6 +18,7 @@ from numbers import Number
 from .backprop_util import apply_pool, flatten_layer, space_to_depth, apply_quantization, init_GPU_util, decode_from_key
 from .activate import SIGMOID, SIGMOIDSLOPE, RECTLINEAR, SOFTMAX, SHIFTED_SIGMOID,WHETSTONE, QUANTIZED_RELU, NONE, STYLES
 from ..xbar_simulator.parameters.parameter_defaults import WriteNoiseModelEnum, UpdateModelEnum, CrossbarTypeEnum
+from warnings import warn #NUEVO PARA WARNINGS
 
 # precision used for all Numpy matrices, vectors
 precision = np.float32
