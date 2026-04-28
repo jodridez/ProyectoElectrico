@@ -472,7 +472,7 @@ class Backprop:
         # Save matrices along with some metadata (learning rate and activations)
         #np.savez(savePath,mats=matrix_list,alpha=self.alpha,activate=self.activate,activate_output=self.activate_output)
         #saving the additional metadata seems to be breaking some things for the simple weight export, we will need to fix this later
-        np.savez(savePath, mats=matrix_list)
+        np.savez(savePath, mats=np.array(matrix_list, dtype=object))
 
 
     def random_weights(self, scale="none", spread=1.0, verbose=False,pos_init = False):

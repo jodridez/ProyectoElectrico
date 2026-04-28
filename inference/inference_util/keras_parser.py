@@ -54,7 +54,16 @@ def get_keras_metadata(model,debug_graph=False,task="imagenet"):
         # Input layer of network: specifies input dimensions of the first layer
         # Not always specified in a Keras CNN model; in that case use the dataset image size as a guess
         if class_name == 'InputLayer':
-            Nix0 = config_k['batch_input_shape'][1]
+            #Nix0 = config_k['batch_input_shape'][1]
+            if 'batch_input_shape' in config_k:
+                Nix0 = config_k['batch_input_shape'][1]
+            elif 'batch_shape' in config_k:
+                Nix0 = config_k['batch_shape'][1]
+            elif 'input_shape' in config_k:
+                Nix0 = config_k['input_shape'][0]
+            else:
+                raise KeyError("No input shape found in layer config")
+            
             if len(config_k['batch_input_shape']) == 4: # 3D input
                 Niy0 = config_k['batch_input_shape'][2]
                 Nic0 = config_k['batch_input_shape'][3]

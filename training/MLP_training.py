@@ -52,10 +52,11 @@ outdir = "console_output/"
 # Does not include learning rate sweep: see MLP_training_lr
 saveSweep = True # save accuracy table in a csv
 Nruns = 1 # number of models to run with identical settings
-Nepochs = 20 # number of epochs per model
+Nepochs = 1 # number of epochs per model
 
 ### Which lookup table(s) to run
 device_type = "DWMTJ"
+
 
 if device_type == "TaOx":
 	## TaOx ReRAM devices fabricated at Sandia, ca. 2016
@@ -66,6 +67,13 @@ if device_type == "TaOx":
 	# lookup_table_multi = "TaOx_large_set"
 	lookup_table_multi = "TaOx_medium_set"
 	# lookup_table_multi = "TaOx_small_set"
+
+
+## LUT GENERADA EN EJEMPLO:
+elif device_type == "EJEMPLO":
+    lookup_table_single = "../examples/lookup_table_generation/lookup_table_example"
+    lookup_table_multi  = None
+
 
 elif device_type == "ENODe":
 	## Electrochemical RAM devices, Sandia and Stanford
@@ -94,8 +102,8 @@ batchsize = 10
 #task = "cyber"
 #task = "SPECTF"
 # task = "small"
-# task = "mnist"
-task = "fashion"
+task = "mnist"
+#task = "fashion"
 # task = "UCI_HAR"
 
 # MLP network topology
@@ -332,7 +340,7 @@ if collect_weight_updates and not periodic_carry:
 			ax2.set_xlim(-D,D)
 		else:
 			ax2.set_xlim(-1,1)
-		save_filename = diag_folder + "innercore_update_error_"+wtmodel+"_"+lut+".png"
+		save_filename = diag_folder + "innercore_update_error_"+wtmodel+"_"+lut+".png" #"./weight_update_stats/mnist/resultado_mi_lut.png" #
 		fig.savefig(save_filename,dpi=600,bbox_inches='tight')
 
 	fileW.close()
