@@ -636,6 +636,7 @@ def inference(ntest,dataset,paramsList,sizes,keras_model,layerParams,**kwargs):
         if first_is_conv:
             # CNN
             bp.indata = np.transpose(bp.indata, (0,3,1,2))
+            bp.ndata = (ntest_batch if not randomSampling else x_test.shape[0]) #NUEVO
         else:
             # MLP -> flatten inputs
             bp.indata = bp.indata.reshape(bp.indata.shape[0], -1)
