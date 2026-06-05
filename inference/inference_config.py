@@ -10,7 +10,7 @@
 # ==============================================
 
 # Enable GPU compute?
-useGPU = False
+useGPU = True
 
 # Which GPU to use (set to 0 if only one GPU)
 gpu_num = 0
