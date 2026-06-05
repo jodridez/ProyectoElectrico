@@ -24,3 +24,17 @@ python MLP_training.py
 echo "========================================"
 echo "Fin : $(date)"
 echo "========================================"
+<<<<<<< HEAD
+=======
+Enviar a cola y monitorear:
+sbatch run_smoketest_training.sh
+# Verificar que entro a cola
+squeue --me
+# Ver output en tiempo real
+tail -f smoketest_training_<JOBID>.out
+# Ver en que nodo esta corriendo
+squeue --me
+# Columna NODELIST muestra el nodo, ej: cngpu001
+# Monitorear GPU desde ese nodo
+ssh -t cngpu001 nvidia-smi
+>>>>>>> cc6016aa12752d2b9bd1abcf74b8c1b405bb4a13
