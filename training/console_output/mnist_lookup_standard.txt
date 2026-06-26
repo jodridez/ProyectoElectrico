@@ -1,0 +1,19 @@
+Matrix 1 Weight Limit =  0.327
+The lookup table has a range of 67.9571 uS to 144.8550 uS
+The lookup table range used is 75.6469 uS to 137.1652 uS. 
+The xbar weight limits will be rescaled accordingly
+Matrix 2 Weight Limit =  1.5750000000000002
+The lookup table has a range of 67.9571 uS to 144.8550 uS
+The lookup table range used is 75.6469 uS to 137.1652 uS. 
+The xbar weight limits will be rescaled accordingly
+
+iteration // avg loss (train) // max loss (train) // fraction correct (test)
+0 // 0 // 0 // 0.1055
+1 // 0.537658 // 24.9348 // 0.9242
+
+Training time = 110.897
+Total time = 120.536
+
+##########
+Multi LUT, Run 0
+##########

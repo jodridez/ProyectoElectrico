@@ -70,8 +70,8 @@ outdir = "console_output/"
 
 ### --- PARÁMETROS DEL EXPERIMENTO (SWEEP) ---
 saveSweep = True # Si es True, guarda los resultados de precisión en un archivo .csv >> directorio sweep results
-Nruns = 1        # Cuántas veces repetiremos todo el experimento desde cero
-Nepochs = 1      # Cuántas veces la red leerá el "libro de ejercicios" 1 vez por completo
+Nruns = 5        # Cuántas veces repetiremos todo el experimento desde cero
+Nepochs = 20      # Cuántas veces la red leerá el "libro de ejercicios" 1 vez por completo
 
 ### --- SELECCIÓN DEL DISPOSITIVO ELECTRÓNICO (Hardware) ---
 # Aquí eliges qué tipo de componente electrónico quieres simular

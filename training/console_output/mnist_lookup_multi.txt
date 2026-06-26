@@ -1,0 +1,11 @@
+Matrix 1 Weight Limit =  0.327
+Matrix 2 Weight Limit =  1.5750000000000002
+
+iteration // avg loss (train) // max loss (train) // fraction correct (test)
+0 // 0 // 0 // 0.0888
+1 // 0.555238 // 16.1208 // 0.911
+
+Training time = 107.922
+Total time = 117.69
+
+Done training mnist, Multi LUT

@@ -1,0 +1,30 @@
+
+Task: mnist
+Look-up table set: numeric
+# updates: 100000
+Mean error: 0.0
+Spread error: 0.0
+Spread positive error: 0.0
+Spread negative error: 0.0
+Asymmetry: 0.0
+ 
+
+Task: mnist
+Look-up table set: DWMTJ_STT_300K
+# updates: 100000
+Mean error: -4.044669118537649e-05
+Spread error: 0.1337853039848473
+Spread positive error: 0.13070172049443035
+Spread negative error: 0.135763083207105
+Asymmetry: 0.005061362712674655
+ 
+
+Task: mnist
+Look-up table set: DWMTJ_STT_300K_multi
+# updates: 100000
+Mean error: 0.0010951604560459692
+Spread error: 0.16715972722309544
+Spread positive error: 0.1639611022243918
+Spread negative error: 0.16814975899759593
+Asymmetry: 0.004188656773204125
+ 
